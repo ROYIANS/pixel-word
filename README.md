@@ -2,7 +2,7 @@
 
 > 每件小东西，都藏着一句话
 
-A pixel-art themed Chinese copywriting library — 108 poetic short texts for everyday objects, built with Next.js 15.
+A pixel-art themed Chinese copywriting library — 108 poetic short texts for everyday objects, built with Next.js 15.5.
 
 ## Features
 
@@ -19,7 +19,7 @@ A pixel-art themed Chinese copywriting library — 108 poetic short texts for ev
 
 | Layer | Tech |
 |-------|------|
-| Framework | Next.js 15 (App Router) |
+| Framework | Next.js 15.5 (App Router) |
 | Database | MongoDB 7 + Mongoose |
 | Icons | Iconify (pixel-art set) |
 | Auth | bcrypt + JWT (httpOnly cookie) |
