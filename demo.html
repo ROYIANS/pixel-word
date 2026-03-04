@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>像素物语 · 小物件的秘密</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf4e8;--cream2:#f2e8d0;--cream3:#e4d5b5;
+  --ink:#1e150a;--ink2:#4a3520;--ink3:#8a7258;
+  --og:#d96c30;--og2:#f08c50;--og3:#fde0c8;
+  --teal:#2e7a6a;--teal2:#4a9a88;--teal3:#ceeae4;
+  --rose:#b84858;--rose2:#d86878;--rose3:#f8dde4;
+  --blue:#3a6898;--blue2:#5888b8;--blue3:#d8e8f8;
+  --pur:#5a4888;--pur2:#7a68a8;--pur3:#e4dff8;
+  --grn:#4a8838;--grn2:#6aaa58;--grn3:#d4eece;
+  --yel:#c89820;--yel2:#e8b830;--yel3:#fdf0c0;
+  --shadow:4px 4px 0;
+  --font:'Noto Serif SC',serif;
+  --px:'DotGothic16',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--font);overflow-x:hidden;cursor:crosshair}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--cream2);border-left:2px solid var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--ink);border:2px solid var(--cream2)}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='3'%3E%3Crect x='0' y='0' width='1' height='1' fill='rgba(30,21,10,0.025)'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+/* ── HEADER ────────────────────────────────── */
+.hd{
+  background:var(--ink);
+  border-bottom:4px solid var(--og);
+  position:sticky;top:0;z-index:200;
+}
+.hd-in{
+  max-width:1100px;margin:0 auto;
+  padding:0 20px;height:56px;
+  display:flex;align-items:center;gap:16px;
+}
+.logo{
+  font-family:var(--px);font-size:17px;
+  color:var(--og2);letter-spacing:3px;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.logo-sq{
+  width:20px;height:20px;
+  background:var(--og);
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;padding:3px;
+}
+.logo-sq b{display:block;background:var(--cream)}
+.logo-sq b:nth-child(2),.logo-sq b:nth-child(3){background:var(--og2)}
+.hd-pills{display:flex;gap:0;margin-left:auto}
+.hd-pill{
+  background:none;border:none;color:rgba(250,244,232,.55);
+  font-family:var(--px);font-size:11px;
+  padding:6px 14px;cursor:pointer;letter-spacing:1px;
+  border-left:1px solid rgba(255,255,255,.08);
+  transition:.1s;
+}
+.hd-pill:hover{background:var(--og);color:var(--ink)}
+.hd-badge{
+  font-family:var(--px);font-size:10px;
+  color:var(--og);background:rgba(217,108,48,.12);
+  border:1px solid rgba(217,108,48,.3);
+  padding:3px 10px;flex-shrink:0;
+}
+
+/* ── HERO ───────────────────────────────────── */
+.hero{
+  background:var(--ink);
+  border-bottom:4px solid var(--og);
+  padding:60px 20px 50px;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(255,255,255,.025) 31px,rgba(255,255,255,.025) 32px),
+    repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(255,255,255,.025) 31px,rgba(255,255,255,.025) 32px);
+  pointer-events:none;
+}
+.hero-in{max-width:1100px;margin:0 auto;position:relative}
+.hero-eyebrow{
+  font-family:var(--px);font-size:10px;letter-spacing:5px;
+  color:var(--og);margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;
+}
+.blink-sq{width:10px;height:10px;background:var(--og);animation:blink 1.2s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-h{
+  font-size:clamp(34px,5.5vw,68px);font-weight:700;
+  line-height:1.1;letter-spacing:-1px;
+  color:var(--cream);margin-bottom:18px;
+}
+.hero-h em{
+  font-style:normal;color:var(--og2);
+  position:relative;
+}
+.hero-h em::after{
+  content:'';position:absolute;
+  bottom:3px;left:0;right:0;height:3px;
+  background:var(--og);
+}
+.hero-sub{
+  font-size:15px;color:var(--ink3);
+  max-width:520px;line-height:1.95;margin-bottom:30px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-a{
+  background:var(--og);border:3px solid var(--og2);
+  color:var(--ink);font-family:var(--px);font-size:12px;
+  padding:10px 22px;cursor:pointer;letter-spacing:1px;
+  box-shadow:var(--shadow) var(--og2);transition:.1s;
+}
+.btn-a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--og2)}
+.btn-a:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--og2)}
+.btn-b{
+  background:transparent;border:3px solid var(--ink3);
+  color:var(--cream);font-family:var(--px);font-size:12px;
+  padding:10px 22px;cursor:pointer;letter-spacing:1px;
+  box-shadow:var(--shadow) var(--ink3);transition:.1s;
+}
+.btn-b:hover{border-color:var(--cream);box-shadow:4px 4px 0 var(--cream);transform:translate(-1px,-1px)}
+
+/* pixel art blobs right side */
+.hero-art{
+  position:absolute;right:0;top:0;bottom:0;
+  width:220px;opacity:.12;pointer-events:none;
+  display:grid;grid-template-columns:repeat(14,1fr);
+  grid-template-rows:repeat(12,1fr);gap:2px;padding:16px;
+}
+.hero-art i{display:block;background:var(--og);animation:pxf 4s ease-in-out infinite alternate}
+.hero-art i:nth-child(3n){background:var(--teal);animation-delay:.3s}
+.hero-art i:nth-child(5n){background:var(--rose);animation-delay:.7s}
+.hero-art i:nth-child(7n){animation-delay:1.1s}
+@keyframes pxf{0%{opacity:.1}100%{opacity:.9}}
+
+/* ── STATS ─────────────────────────────────── */
+.stats{
+  background:var(--cream2);
+  border-bottom:3px solid var(--ink);
+}
+.stats-in{
+  max-width:1100px;margin:0 auto;
+  display:flex;flex-wrap:wrap;
+}
+.stat{
+  flex:1;min-width:120px;
+  padding:16px 22px;
+  border-right:2px solid var(--ink);
+}
+.stat:last-child{border-right:none}
+.stat-l{font-family:var(--px);font-size:9px;color:var(--ink3);letter-spacing:1px;margin-bottom:4px}
+.stat-v{font-size:26px;font-weight:700;color:var(--og)}
+
+/* ── CONTROLS ───────────────────────────────── */
+.ctrl{
+  background:var(--cream2);
+  border-bottom:3px solid var(--ink);
+  padding:14px 20px;
+  position:sticky;top:56px;z-index:100;
+}
+.ctrl-in{
+  max-width:1100px;margin:0 auto;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.srch{position:relative;flex:1;min-width:180px}
+.srch-ic{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+.srch input{
+  width:100%;background:var(--cream);
+  border:3px solid var(--ink);color:var(--ink);
+  font-family:var(--font);font-size:14px;
+  padding:7px 10px 7px 30px;outline:none;
+  box-shadow:3px 3px 0 var(--ink);transition:.1s;
+}
+.srch input:focus{box-shadow:4px 4px 0 var(--og);border-color:var(--og)}
+.srch input::placeholder{color:var(--ink3);font-family:var(--px);font-size:11px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{
+  background:var(--cream);border:2px solid var(--ink);
+  font-family:var(--px);font-size:10px;
+  padding:5px 9px;cursor:pointer;
+  color:var(--ink);box-shadow:2px 2px 0 var(--ink);
+  transition:.1s;white-space:nowrap;
+}
+.chip:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.chip.on{background:var(--ink);color:var(--cream)}
+.chip.on[data-c="情感"]{background:var(--rose);border-color:var(--rose)}
+.chip.on[data-c="治愈"]{background:var(--teal);border-color:var(--teal)}
+.chip.on[data-c="孤独"]{background:var(--blue);border-color:var(--blue)}
+.chip.on[data-c="自然"]{background:var(--grn);border-color:var(--grn)}
+.chip.on[data-c="物件"]{background:var(--yel);border-color:var(--yel);color:var(--ink)}
+.chip.on[data-c="夜晚"]{background:var(--pur);border-color:var(--pur)}
+.chip.on[data-c="日常"]{background:var(--og);border-color:var(--og)}
+.chip.on[data-c="荒诞"]{background:var(--rose);border-color:var(--rose)}
+select.sort{
+  background:var(--cream);border:2px solid var(--ink);
+  font-family:var(--px);font-size:10px;
+  padding:6px 8px;cursor:pointer;color:var(--ink);
+  box-shadow:2px 2px 0 var(--ink);outline:none;
+}
+.btn-rnd{
+  background:var(--og);border:2px solid var(--ink);
+  font-family:var(--px);font-size:10px;
+  padding:6px 13px;cursor:pointer;color:var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  transition:.1s;white-space:nowrap;
+}
+.btn-rnd:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn-rnd:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+
+/* ── RESULT BAR ─────────────────────────────── */
+.rbar{
+  max-width:1100px;margin:0 auto;
+  padding:10px 20px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--px);font-size:10px;color:var(--ink3);
+}
+.rbar strong{color:var(--og);font-size:12px}
+
+/* ── GRID ───────────────────────────────────── */
+.grid-wrap{max-width:1100px;margin:0 auto;padding:18px 20px 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+
+/* ── CARD ───────────────────────────────────── */
+.card{
+  background:var(--cream);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  position:relative;overflow:hidden;
+  transition:transform .08s,box-shadow .08s;
+  animation:cardIn .25s ease-out both;
+}
+.card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink);z-index:2}
+@keyframes cardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* top accent */
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.card[data-c="情感"]::before{background:var(--rose)}
+.card[data-c="治愈"]::before{background:var(--teal)}
+.card[data-c="孤独"]::before{background:var(--blue)}
+.card[data-c="自然"]::before{background:var(--grn)}
+.card[data-c="物件"]::before{background:var(--yel)}
+.card[data-c="夜晚"]::before{background:var(--pur)}
+.card[data-c="日常"]::before{background:var(--og)}
+.card[data-c="荒诞"]::before{background:var(--rose2)}
+
+.c-top{
+  padding:14px 14px 10px;
+  display:flex;align-items:flex-start;gap:10px;
+  border-bottom:2px dashed var(--cream3);
+}
+.c-em{
+  width:38px;height:38px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  background:var(--cream2);border:2px solid var(--cream3);
+  line-height:1;
+}
+.c-meta{flex:1}
+.c-name{font-size:14px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:3px}
+.c-cat{
+  font-family:var(--px);font-size:9px;
+  display:inline-block;padding:1px 5px;
+  border:1px solid currentColor;
+}
+.card[data-c="情感"] .c-cat{color:var(--rose)}
+.card[data-c="治愈"] .c-cat{color:var(--teal)}
+.card[data-c="孤独"] .c-cat{color:var(--blue)}
+.card[data-c="自然"] .c-cat{color:var(--grn)}
+.card[data-c="物件"] .c-cat{color:var(--yel)}
+.card[data-c="夜晚"] .c-cat{color:var(--pur)}
+.card[data-c="日常"] .c-cat{color:var(--og)}
+.card[data-c="荒诞"] .c-cat{color:var(--rose2)}
+
+.c-body{padding:13px 14px}
+.c-txt{font-size:13.5px;line-height:1.9;color:var(--ink2);letter-spacing:.2px}
+
+.c-foot{
+  padding:9px 14px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:2px dashed var(--cream3);
+}
+.c-id{font-family:var(--px);font-size:9px;color:var(--ink3)}
+.c-acts{display:flex;gap:5px}
+.btn-lk{
+  background:none;border:2px solid var(--cream3);
+  font-family:var(--px);font-size:10px;
+  padding:3px 7px;cursor:pointer;color:var(--ink3);
+  display:flex;align-items:center;gap:3px;
+  transition:.1s;
+}
+.btn-lk:hover{border-color:var(--rose);color:var(--rose)}
+.btn-lk.on{background:var(--rose3);border-color:var(--rose);color:var(--rose)}
+.btn-cp{
+  background:none;border:2px solid var(--cream3);
+  font-family:var(--px);font-size:10px;
+  padding:3px 7px;cursor:pointer;color:var(--ink3);
+  transition:.1s;
+}
+.btn-cp:hover{border-color:var(--og);color:var(--og)}
+.btn-cp.ok{background:var(--og3);border-color:var(--og);color:var(--og)}
+
+/* ── EMPTY ─────────────────────────────────── */
+.empty{display:none;text-align:center;padding:80px 20px}
+.empty.show{display:block}
+.empty p{font-family:var(--px);font-size:12px;color:var(--ink3);margin-top:16px}
+
+/* ── MODAL ─────────────────────────────────── */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(30,21,10,.75);
+  z-index:5000;display:none;
+  align-items:center;justify-content:center;padding:20px;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--cream);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  max-width:480px;width:100%;
+  animation:mIn .12s steps(3);
+}
+@keyframes mIn{from{transform:scale(.94) translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.m-hd{
+  background:var(--ink);color:var(--cream);
+  padding:11px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--px);font-size:12px;
+}
+.m-x{
+  background:var(--rose);border:none;color:#fff;
+  width:20px;height:20px;cursor:pointer;
+  font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.m-body{padding:26px}
+.m-em{font-size:44px;margin-bottom:12px}
+.m-name{font-size:20px;font-weight:700;margin-bottom:4px}
+.m-cat{font-family:var(--px);font-size:10px;color:var(--ink3);margin-bottom:18px}
+.m-txt{
+  font-size:15px;line-height:2;color:var(--ink2);
+  border-left:4px solid var(--og);
+  padding-left:14px;margin-bottom:22px;
+}
+.m-acts{display:flex;gap:10px}
+
+/* ── TOAST ─────────────────────────────────── */
+.toasts{position:fixed;bottom:20px;right:20px;z-index:9000;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{
+  background:var(--ink);color:var(--cream);
+  border:2px solid var(--og);
+  font-family:var(--px);font-size:11px;
+  padding:9px 14px;
+  box-shadow:3px 3px 0 var(--og);
+  animation:tIn .12s steps(3) both,tOut .2s steps(3) forwards 2s;
+  white-space:nowrap;
+}
+@keyframes tIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes tOut{from{opacity:1}to{opacity:0;transform:translateX(14px)}}
+
+/* ── FOOTER ─────────────────────────────────── */
+.foot{
+  background:var(--ink);color:var(--cream);
+  border-top:4px solid var(--og);
+  padding:40px 20px;text-align:center;
+}
+.foot-t{font-family:var(--px);font-size:12px;color:var(--og);margin-bottom:6px;letter-spacing:2px}
+.foot-d{font-size:13px;color:var(--ink3);line-height:1.8}
+.foot-dots{display:flex;justify-content:center;gap:5px;margin-top:18px}
+.dot{width:7px;height:7px;background:var(--og);animation:blink 2s step-end infinite}
+.dot:nth-child(2){animation-delay:.3s;background:var(--teal)}
+.dot:nth-child(3){animation-delay:.6s;background:var(--rose)}
+.dot:nth-child(4){animation-delay:.9s}
+.dot:nth-child(5){animation-delay:1.2s;background:var(--pur)}
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media(max-width:600px){
+  .hero-art{display:none}
+  .grid{grid-template-columns:1fr}
+  .ctrl-in{flex-direction:column;align-items:stretch}
+  .hero-h{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hd">
+  <div class="hd-in">
+    <div class="logo">
+      <div class="logo-sq"><b></b><b></b><b></b><b></b></div>
+      像素物语
+    </div>
+    <div class="hd-pills">
+      <button class="hd-pill" onclick="window.scrollTo(0,0)">首页</button>
+      <button class="hd-pill" onclick="doRandom()">随机</button>
+      <button class="hd-pill" onclick="viewLiked()">收藏</button>
+    </div>
+    <div class="hd-badge">共 <span id="hdTotal">0</span> 条</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-art" id="heroArt"></div>
+  <div class="hero-in">
+    <div class="hero-eyebrow"><i class="blink-sq"></i>PIXEL OBJECT ARCHIVE · 像素物件文案库</div>
+    <h1 class="hero-h">每件小东西<br>都<em>藏着</em>一句话</h1>
+    <p class="hero-sub">熄灭的蜡烛、发呆的胖兔、走调的八音盒——<br>它们不说话，但它们有话说。</p>
+    <div class="hero-btns">
+      <button class="btn-a" onclick="doRandom()">✦ 随机抽一条</button>
+      <button class="btn-b" onclick="document.querySelector('.grid-wrap').scrollIntoView({behavior:'smooth'})">浏览全部 ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-in">
+    <div class="stat"><div class="stat-l">ITEMS</div><div class="stat-v" id="stTotal">0</div></div>
+    <div class="stat"><div class="stat-l">CATEGORIES</div><div class="stat-v">8</div></div>
+    <div class="stat"><div class="stat-l">LIKED</div><div class="stat-v" id="stLiked">0</div></div>
+    <div class="stat"><div class="stat-l">VERSION</div><div class="stat-v" style="font-size:18px;padding-top:4px">v2.0</div></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="ctrl">
+  <div class="ctrl-in">
+    <div class="srch">
+      <span class="srch-ic">◈</span>
+      <input type="text" id="srchIn" placeholder="搜索物件名或文案关键词…" oninput="render()">
+    </div>
+    <div class="chips">
+      <button class="chip on" data-c="全部" onclick="setcat('全部',this)">全部</button>
+      <button class="chip" data-c="情感" onclick="setcat('情感',this)">情感</button>
+      <button class="chip" data-c="治愈" onclick="setcat('治愈',this)">治愈</button>
+      <button class="chip" data-c="孤独" onclick="setcat('孤独',this)">孤独</button>
+      <button class="chip" data-c="日常" onclick="setcat('日常',this)">日常</button>
+      <button class="chip" data-c="自然" onclick="setcat('自然',this)">自然</button>
+      <button class="chip" data-c="物件" onclick="setcat('物件',this)">物件</button>
+      <button class="chip" data-c="夜晚" onclick="setcat('夜晚',this)">夜晚</button>
+      <button class="chip" data-c="荒诞" onclick="setcat('荒诞',this)">荒诞</button>
+    </div>
+    <select class="sort" id="sortSel" onchange="render()">
+      <option value="d">默认排序</option>
+      <option value="l">最多喜欢</option>
+      <option value="n">最新收录</option>
+    </select>
+    <button class="btn-rnd" onclick="doRandom()">✦ 随机</button>
+  </div>
+</div>
+
+<!-- RESULT BAR -->
+<div class="rbar">
+  <div>显示 <strong id="showN">0</strong> 条物语</div>
+  <div id="catLabel" style="color:var(--ink3)"></div>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">
+    <div style="font-size:40px">◻</div>
+    <p>没有找到匹配的物语</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-t">✦ 像素物语 · PIXEL TALES ✦</div>
+  <p class="foot-d">那些被遗忘在角落的小东西，<br>都有一句没说出口的话。</p>
+  <div class="foot-dots">
+    <div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toasts" id="toasts"></div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="m-hd">
+      <span>✦ 随机物语</span>
+      <button class="m-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="m-body">
+      <div class="m-em" id="mEm"></div>
+      <div class="m-name" id="mName"></div>
+      <div class="m-cat" id="mCat"></div>
+      <div class="m-txt" id="mTxt"></div>
+      <div class="m-acts">
+        <button class="btn-a" onclick="doRandom()">再来一条</button>
+        <button class="btn-b" style="color:var(--ink);border-color:var(--ink2)" onclick="copyModal()">复制文案</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — 108 items, all original copywriting
+============================================================ */
+const DATA = [
+  // ── 情感 (24) ──────────────────────────────────────
+  {id:'001',em:'🐻',name:'心碎小熊',cat:'情感',text:'我当然赢不了你啦，你又不是真心的。'},
+  {id:'002',em:'💌',name:'树莓味的情书',cat:'情感',text:'我好喜欢你啊，但我不会说的。'},
+  {id:'003',em:'🐶',name:'小狗的纸条',cat:'情感',text:'今天下雪了，我们和好吧。'},
+  {id:'004',em:'💔',name:'道歉信',cat:'情感',text:'能和好就和好吧，下辈子遇不见了。'},
+  {id:'005',em:'🕯️',name:'熄灭的蜡烛',cat:'情感',text:'好奇怪，大家好像都在八倍速生活，而我却像一支蜡烛，烧得只剩半节了，记忆还停留在你眼神煜煜点燃我的那一刻。'},
+  {id:'006',em:'🧁',name:'恋爱公式',cat:'情感',text:'恋爱不是套题公式，同样的，真心我拿不出来第二次。'},
+  {id:'007',em:'💘',name:'神箭天使',cat:'情感',text:'他们有没有告诉过你，关于丘比特之箭的伤口有多深？'},
+  {id:'008',em:'🤖',name:'修理机械心脏的机器人',cat:'情感',text:'最近对爱有了新的领悟，讽刺的是，让我领悟爱的原因，竟是因为不被爱。'},
+  {id:'009',em:'👼',name:'尘埃天使',cat:'情感',text:'被你捧成神的人，不会喜欢尘埃里的你。'},
+  {id:'010',em:'🐾',name:'笨蛋小狗',cat:'情感',text:'你们谈恋爱吧！我太笨了，要先爱自己！'},
+  {id:'011',em:'🍓',name:'草莓蛋糕',cat:'情感',text:'特地把最大的那颗留到最后，想着等你来，但你没来，我自己吃了，很甜，也很算了。'},
+  {id:'012',em:'🎀',name:'缎带',cat:'情感',text:'被解开的那一刻才是它最重要的时刻，你也是，你等的那个人也是。'},
+  {id:'013',em:'💬',name:'没寄出的消息',cat:'情感',text:'打了删，删了打，打完又删，最后发了句「在吗」，你说「在」，我说「没事了」。'},
+  {id:'014',em:'🌸',name:'樱花树',cat:'情感',text:'它一年只为你开那么几天，你每次都在那几天之外来看它，它不怪你，明年还开。'},
+  {id:'015',em:'📝',name:'便利贴',cat:'情感',text:'贴在你桌角的，你撕下来攥着，我从来不知道你拿它做了什么，也没有再问过。'},
+  {id:'016',em:'🫙',name:'糖罐',cat:'情感',text:'我妈不吃糖，但我们家的糖罐从来都是满的，我到很久以后才明白那是为什么。'},
+  {id:'017',em:'🧇',name:'厚松饼',cat:'情感',text:'中间塞了太多奶油，甜得有点过头了，就像那天你说的话，我信了。'},
+  {id:'018',em:'🌹',name:'干燥玫瑰',cat:'情感',text:'鲜花死了才变成这样，但反而能被留着更久，有些爱意也是，死掉之后更长寿。'},
+  {id:'019',em:'📻',name:'旧收音机',cat:'情感',text:'那首歌又来了，我还没学会跳过它。'},
+  {id:'020',em:'🎠',name:'旋转木马',cat:'情感',text:'你每次都选白马，我选棕马，绕了好多圈，但我们一直在一起。后来你不来了，我也不去了。'},
+  {id:'021',em:'🌙',name:'月亮',cat:'情感',text:'你说想让我陪你，但你自己睡着了，月亮没有走，一直等到天亮。'},
+  {id:'022',em:'🎶',name:'玫瑰音符',cat:'情感',text:'你给我分享音乐的时候，我的感觉像是收到了花。'},
+  {id:'023',em:'🫐',name:'蓝莓罐',cat:'情感',text:'酸的，但你喜欢，所以我也假装喜欢了很久，后来是真的喜欢了。后来你走了，我还喜欢。'},
+  {id:'024',em:'🪐',name:'小星球',cat:'情感',text:'你说你想住在那里，我说太冷了，你说有你就不冷，我没有接话，但我记着了，一直记着。'},
+
+  // ── 治愈 (16) ──────────────────────────────────────
+  {id:'025',em:'🧸',name:'旧绒熊',cat:'治愈',text:'它被抱过太多次了，胸口已经扁了，但它没有一次是不情愿的。'},
+  {id:'026',em:'☕',name:'陶瓷茶杯',cat:'治愈',text:'还有一点点热，喝下去吧，有些温暖不等人。'},
+  {id:'027',em:'🛏️',name:'棉被',cat:'治愈',text:'世界再乱，它总是软的，总是暖的，总是在。'},
+  {id:'028',em:'🧣',name:'针织围巾',cat:'治愈',text:'某个下午，有人一针一针把你织进去了，那个下午她想的是你。'},
+  {id:'029',em:'🌱',name:'第一颗绿芽',cat:'治愈',text:'春天来得突然，我们去散步好吗？'},
+  {id:'030',em:'🫖',name:'粗陶茶壶',cat:'治愈',text:'开裂了，用金漆补过，喝出来的茶反而更好喝了，说不清为什么。'},
+  {id:'031',em:'🪟',name:'起雾的窗',cat:'治愈',text:'你用手指在上面画了颗心，它融化的时候，心也跟着流下来了，算是留过。'},
+  {id:'032',em:'🕰️',name:'发条钟',cat:'治愈',text:'每天都要有人来拨它一下，它才能继续走，也挺像有些人的。'},
+  {id:'033',em:'🪴',name:'苔藓小球',cat:'治愈',text:'它不开花，不结果，只是绿绿地安静地待在那里，也挺好的。'},
+  {id:'034',em:'🌙',name:'夜灯',cat:'治愈',text:'你睡着了它才敢亮，它怕打扰你，但又怕你一个人太黑。'},
+  {id:'035',em:'🍵',name:'薄荷茶',cat:'治愈',text:'苦是真的苦，凉是真的凉，但喝完嘴里会留着一点说不清的清爽。'},
+  {id:'036',em:'📿',name:'旧念珠',cat:'治愈',text:'被摸了几十年，每一颗都亮了，但每一颗还是原来那颗，没有消失过。'},
+  {id:'037',em:'🎐',name:'风铃',cat:'治愈',text:'没有风的时候你以为它不在了，一阵风过来，它就来了，它一直都在。'},
+  {id:'038',em:'🐱',name:'慵懒的小猫',cat:'治愈',text:'下午三点的阳光它全都要。你叫它它不理你，但你走了它会偷偷跑到你坐过的位置上待着。'},
+  {id:'039',em:'🧁',name:'纸杯蛋糕',cat:'治愈',text:'上面那朵奶油花是专门裱的，没有告诉你，就是想让你看到的时候高兴那么一下。'},
+  {id:'040',em:'🌷',name:'晚安小花',cat:'治愈',text:'今天过得再差也结束了，明天的事明天再说，你先睡。'},
+
+  // ── 孤独 (14) ──────────────────────────────────────
+  {id:'041',em:'🗝️',name:'旧钥匙',cat:'孤独',text:'它配的锁早就换了，但没有人舍得扔掉它，也没有人记得为什么。'},
+  {id:'042',em:'🖼️',name:'脱钉的相框',cat:'孤独',text:'照片歪了，很久了，但住在这里的人没有去扶，歪着也是一种形状。'},
+  {id:'043',em:'🎶',name:'走调的八音盒',cat:'孤独',text:'上发条的人走了，它就再也没有好好转过，不是坏了，是懒得了。'},
+  {id:'044',em:'🕸️',name:'蜘蛛网',cat:'孤独',text:'它等了很久，什么都没等到，但网还在，它还在等，等是它唯一会的事。'},
+  {id:'045',em:'🪞',name:'落灰的镜子',cat:'孤独',text:'好久没人照了，它不确定自己还能不能把人照清楚。'},
+  {id:'046',em:'🎞️',name:'旧胶卷',cat:'孤独',text:'还没有冲洗，但那个下午的光已经晒进去了，不会跑的。'},
+  {id:'047',em:'🪑',name:'空摇椅',cat:'孤独',text:'风吹的时候它会动一下，没有风的时候它比任何东西都安静。'},
+  {id:'048',em:'🎆',name:'散场的烟火',cat:'孤独',text:'大家都在看它，它结束以后，所有人都走了。它从来没有被留下来过。'},
+  {id:'049',em:'🧩',name:'缺一块的拼图',cat:'孤独',text:'那块找到了，就是不想拼上去，一拼上去就完成了，就结束了。'},
+  {id:'050',em:'🌫️',name:'白雾',cat:'孤独',text:'你走进去就看不见路了，但你又不舍得停在外面，就进去了，就迷路了。'},
+  {id:'051',em:'📬',name:'旧信箱',cat:'孤独',text:'里面有一封信一直没有寄出去，不是忘了，是舍不得，那个人收到之前，它就永远是惦念。'},
+  {id:'052',em:'🎑',name:'一人份火锅',cat:'孤独',text:'锅是小的，食材还是买多了，吃到最后有点撑，又有点还好。'},
+  {id:'053',em:'🪜',name:'梯子',cat:'孤独',text:'搭好了，没有人来用，它靠在墙上等，等得有点不是滋味。'},
+  {id:'054',em:'🕯️',name:'半融的蜡烛',cat:'孤独',text:'流下来的烛油是它在哭，还是它在给你留着暖？不知道，反正它一直亮着。'},
+
+  // ── 日常 (14) ──────────────────────────────────────
+  {id:'055',em:'🐰',name:'发呆的胖兔',cat:'日常',text:'如果明天不上学那该多好啊。'},
+  {id:'056',em:'🚽',name:'星晴马桶',cat:'日常',text:'将一天的不开心统统冲干净吧。'},
+  {id:'057',em:'🪑',name:'郊外长椅',cat:'日常',text:'生活中还应该有一些漫无目的的浪费和心甘情愿的放松。'},
+  {id:'058',em:'🛁',name:'搪瓷浴缸',cat:'日常',text:'周四的下午，水温刚刚好，什么都不想，就在里面泡着，时间过得很慢，很好。'},
+  {id:'059',em:'🍳',name:'铸铁锅',cat:'日常',text:'养了很多年，不粘了，它记得每一顿饭，但你不记得。'},
+  {id:'060',em:'📖',name:'书签',cat:'日常',text:'它帮你记着停在哪里，你去做了别的事，它就一直等在那一页。'},
+  {id:'061',em:'🥣',name:'早饭碗',cat:'日常',text:'每天都用，从来不注意，但如果哪天它不在了，你会措手不及。'},
+  {id:'062',em:'🧴',name:'护手霜',cat:'日常',text:'总是挤不干净，最后一点要剪开来用，有时候最值钱的是最后那一点。'},
+  {id:'063',em:'🪴',name:'吊兰',cat:'日常',text:'你浇多了它就黄，你浇少了它就干，它在学着跟你相处，你也是。'},
+  {id:'064',em:'🧦',name:'一只袜子',cat:'日常',text:'另一只找不到了，它没有办法，只好在抽屉里等，或许等个几年就放弃了。'},
+  {id:'065',em:'🎒',name:'旧书包',cat:'日常',text:'背带松了，你用别针别上，里面那个味道你已经闻不出来了，但你的书包认识你。'},
+  {id:'066',em:'📌',name:'图钉',cat:'日常',text:'把重要的东西钉在那里，但自己一直是被钉住的那个，从来没动过。'},
+  {id:'067',em:'🧹',name:'竹扫帚',cat:'日常',text:'它把别人的乱扫走，自己的缺毛没有人帮它理。'},
+  {id:'068',em:'⏰',name:'睡前闹钟',cat:'日常',text:'定了八点，你知道你会按掉，你也知道你还是要定，就这样，每天。'},
+
+  // ── 自然 (12) ──────────────────────────────────────
+  {id:'069',em:'🌧️',name:'春雨',cat:'自然',text:'它是专门来打扰你的，闻着好，却总是在你出门前才到。'},
+  {id:'070',em:'🍂',name:'落叶',cat:'自然',text:'它不是死的，它只是换了一种方式陪着那棵树。'},
+  {id:'071',em:'❄️',name:'第一场雪',cat:'自然',text:'总是在你没有准备的时候来，但来了你又觉得，它早就该来了。'},
+  {id:'072',em:'🌿',name:'薄荷',cat:'自然',text:'揉了一下，香味才出来，很多东西要弄疼了，才能明白它是什么。'},
+  {id:'073',em:'🌾',name:'麦穗',cat:'自然',text:'弯下去的是谦虚，也是太饱满了撑不住。'},
+  {id:'074',em:'🌺',name:'木槿花',cat:'自然',text:'一天就谢了，但它不赶时间，它只活今天，活得很认真。'},
+  {id:'075',em:'🌳',name:'老银杏',cat:'自然',text:'它见过你小时候，也见过你现在，但它不评价，它只是长着。'},
+  {id:'076',em:'🌈',name:'彩虹',cat:'自然',text:'要雨停了才出来，出来了又不久，像是某种道理，你懂了一下，又忘了。'},
+  {id:'077',em:'🦋',name:'白蝴蝶',cat:'自然',text:'它不知道要去哪里，风往哪吹它去哪里，但它飞着呢，这就够了。'},
+  {id:'078',em:'🌵',name:'仙人掌',cat:'自然',text:'不需要人照顾，但给水的那天它还是很开心，只是不说。'},
+  {id:'079',em:'🍄',name:'雨后蘑菇',cat:'自然',text:'昨天还没有，今天就来了，它不解释，它只是时候到了。'},
+  {id:'080',em:'🪸',name:'珊瑚石',cat:'自然',text:'它花了几百年长成这样，你花了两秒把它捡走了，它不怪你，它见过更漫长的事。'},
+
+  // ── 物件 (12) ──────────────────────────────────────
+  {id:'081',em:'🔭',name:'旧望远镜',cat:'物件',text:'它能把远的东西拉近，但那些东西其实并没有近，只是看起来近，这有时候够了。'},
+  {id:'082',em:'🧭',name:'指南针',cat:'物件',text:'它永远指北，但北不一定是你要去的方向，它知道，但它没有办法。'},
+  {id:'083',em:'🪆',name:'套娃',cat:'物件',text:'里面还有，里面还有，里面还有，最里面那个终于是实心的，你才放心。'},
+  {id:'084',em:'⏳',name:'沙漏',cat:'物件',text:'翻过来就重新开始了，如果它是时间就好了。'},
+  {id:'085',em:'🔮',name:'水晶球',cat:'物件',text:'你问它未来，它只映出你的脸，或许这就是答案。'},
+  {id:'086',em:'🪬',name:'护身符',cat:'物件',text:'戴着它的时候你更勇敢，其实勇敢是你自己的，它只是借给你放的地方。'},
+  {id:'087',em:'📜',name:'空白羊皮纸',cat:'物件',text:'什么都还没有写，它已经很好看了，有时候空白也是一种完整。'},
+  {id:'088',em:'🪗',name:'手风琴',cat:'物件',text:'要一推一拉才能出声，合奏是它的本性，它不喜欢独奏，但它学会了。'},
+  {id:'089',em:'🎏',name:'风铃串',cat:'物件',text:'你路过的时候它响了一下，你走了以后它还响着，不是为你，是风还在。'},
+  {id:'090',em:'🧲',name:'马蹄磁铁',cat:'物件',text:'有些东西它能吸住，有些它推开，它是诚实的，它不勉强。'},
+  {id:'091',em:'🎐',name:'鲤鱼旗',cat:'物件',text:'要有风才能飘起来，它一直都在等一场风，等到了就很好看。'},
+  {id:'092',em:'🪞',name:'梳妆镜',cat:'物件',text:'每天照，从来没有对它说谢谢，但它记下了你所有表情里最真实的那一个。'},
+
+  // ── 夜晚 (10) ──────────────────────────────────────
+  {id:'093',em:'🌌',name:'银河',cat:'夜晚',text:'要在很暗的地方才能看到，很多美好的东西需要你先习惯黑暗。'},
+  {id:'094',em:'🦉',name:'夜猫头鹰',cat:'夜晚',text:'白天它装睡，夜里它最清醒，有些人也是这样的，你也知道你是。'},
+  {id:'095',em:'🌃',name:'霓虹街道',cat:'夜晚',text:'雨后的地面会把灯都倒映出来，那时候地面比天空好看。'},
+  {id:'096',em:'🌙',name:'弯月',cat:'夜晚',text:'它缺着，但还是出来了，出来以后发现大家都不在意它缺，只觉得它好看。'},
+  {id:'097',em:'🪔',name:'油灯',cat:'夜晚',text:'风一来就摇，但没有灭，它摇晃着，比固执的蜡烛更像在呼吸。'},
+  {id:'098',em:'🎆',name:'烟花',cat:'夜晚',text:'没有人留下来等它散，它散了很久，等到很晚，天亮了才彻底没了。'},
+  {id:'099',em:'🫙',name:'萤火虫瓶',cat:'夜晚',text:'捉了好多才装满，亮了一夜，早上一看，算了，放走了，那个夜晚留下来了。'},
+  {id:'100',em:'🌉',name:'夜里的桥',cat:'夜晚',text:'白天走桥是为了去对面，夜里站在桥上，是为了待在中间，不去哪里。'},
+  {id:'101',em:'🪟',name:'深夜窗口',cat:'夜晚',text:'别人家的灯还亮着，你不知道他们在做什么，但看着就觉得，世界上还有别人在。'},
+  {id:'102',em:'🐚',name:'夜里的贝壳',cat:'夜晚',text:'白天它是普通的，夜里捡起来放耳边，是海的声音，也是自己的声音，分不清。'},
+
+  // ── 荒诞 (6) ───────────────────────────────────────
+  {id:'103',em:'📠',name:'传真机',cat:'荒诞',text:'发过去了，不知道收到没，对方沉默，可能在思考，可能纸卡住了，可能没纸了。'},
+  {id:'104',em:'🎭',name:'戏剧面具',cat:'荒诞',text:'哭的那个和笑的那个其实是一起买的，卖家说他们是一套，要一起走。'},
+  {id:'105',em:'🐌',name:'蜗牛壳',cat:'荒诞',text:'背着自己的家走，走到哪里都不算流浪，但也永远到不了想去的远处。'},
+  {id:'106',em:'🌀',name:'漩涡糖',cat:'荒诞',text:'好像绕到了中心就会有答案，但舔到最后只是一根木棍，答案是：你只是在吃糖。'},
+  {id:'107',em:'🌡️',name:'体温表',cat:'荒诞',text:'量了半天，显示正常，但你知道自己不正常，只是这个东西量不出来。'},
+  {id:'108',em:'🪭',name:'折叠扇',cat:'荒诞',text:'打开是一幅画，合上是一根棍，不知道该算是画还是棍，就做个折叠的人吧。'},
+];
+
+/* ============================================================
+   STATE
+============================================================ */
+let cat = '全部';
+let likes = {};
+
+function init() {
+  try { likes = JSON.parse(sessionStorage.getItem('px_likes')||'{}'); } catch(e){}
+  document.getElementById('hdTotal').textContent = DATA.length;
+  document.getElementById('stTotal').textContent = DATA.length;
+  buildHeroArt();
+  render();
+}
+
+/* ── HERO PIXELS ─────────────────────────── */
+function buildHeroArt() {
+  const el = document.getElementById('heroArt');
+  for(let i=0;i<168;i++){
+    const s=document.createElement('i');
+    s.style.cssText=`animation-delay:${(Math.random()*4).toFixed(2)}s;animation-duration:${(2+Math.random()*4).toFixed(2)}s;opacity:${Math.random()>.6?'0':'1'}`;
+    el.appendChild(s);
+  }
+}
+
+/* ── CATEGORY ────────────────────────────── */
+function setcat(c, el) {
+  cat = c;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+
+/* ── RENDER ──────────────────────────────── */
+function render() {
+  const q = document.getElementById('srchIn').value.trim().toLowerCase();
+  const sort = document.getElementById('sortSel').value;
+
+  let list = DATA.filter(item => {
+    const catOk = cat==='全部' || item.cat===cat;
+    const qOk = !q || item.name.includes(q) || item.text.includes(q) || item.cat.includes(q);
+    return catOk && qOk;
+  });
+  if(sort==='l') list.sort((a,b)=>(likes[b.id]?1:0)-(likes[a.id]?1:0));
+  else if(sort==='n') list=[...list].reverse();
+
+  document.getElementById('showN').textContent = list.length;
+  document.getElementById('catLabel').textContent = cat!=='全部'?`当前：${cat}`:'';
+
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  grid.innerHTML='';
+  empty.classList.toggle('show', list.length===0);
+
+  list.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.dataset.c=item.cat;
+    div.style.animationDelay=Math.min(i*.035,.5)+'s';
+    const liked=!!likes[item.id];
+    div.innerHTML=`
+      <div class="c-top">
+        <div class="c-em">${item.em}</div>
+        <div class="c-meta">
+          <div class="c-name">${item.name}</div>
+          <span class="c-cat">${item.cat}</span>
+        </div>
+      </div>
+      <div class="c-body"><div class="c-txt">${item.text}</div></div>
+      <div class="c-foot">
+        <div class="c-id"># ${item.id}</div>
+        <div class="c-acts">
+          <button class="btn-lk ${liked?'on':''}" onclick="toggleLike('${item.id}',this)">
+            <span>${liked?'♥':'♡'}</span>
+          </button>
+          <button class="btn-cp" onclick="doCopy('${item.id}',this)">复制</button>
+        </div>
+      </div>`;
+    grid.appendChild(div);
+  });
+  updateStats();
+}
+
+/* ── LIKE ────────────────────────────────── */
+function toggleLike(id, btn) {
+  likes[id]=!likes[id];
+  const on=likes[id];
+  btn.classList.toggle('on',on);
+  btn.querySelector('span').textContent=on?'♥':'♡';
+  if(on){ burst(btn); toast('已收藏 ♥'); }
+  else toast('已取消收藏');
+  try{sessionStorage.setItem('px_likes',JSON.stringify(likes));}catch(e){}
+  updateStats();
+}
+
+function burst(el) {
+  const r=el.getBoundingClientRect();
+  for(let i=0;i<7;i++){
+    const p=document.createElement('div');
+    p.style.cssText=`position:fixed;left:${r.left+r.width/2}px;top:${r.top}px;width:5px;height:5px;background:var(--rose);pointer-events:none;z-index:9999;transition:all .5s ease-out;border-radius:0`;
+    document.body.appendChild(p);
+    setTimeout(()=>{p.style.transform=`translate(${(Math.random()-.5)*50}px,${-25-Math.random()*35}px) scale(0)`;p.style.opacity='0';},10);
+    setTimeout(()=>p.remove(),600);
+  }
+}
+
+/* ── COPY ────────────────────────────────── */
+function doCopy(id, btn) {
+  const item=DATA.find(x=>x.id===id);
+  if(!item)return;
+  navigator.clipboard.writeText(`【${item.name}】${item.text}`).then(()=>{
+    btn.textContent='已复制';btn.classList.add('ok');
+    toast('文案已复制 ✓');
+    setTimeout(()=>{btn.textContent='复制';btn.classList.remove('ok');},1400);
+  }).catch(()=>toast('请手动复制'));
+}
+
+/* ── RANDOM MODAL ────────────────────────── */
+function doRandom() {
+  const pool=cat==='全部'?DATA:DATA.filter(x=>x.cat===cat);
+  const item=pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('mEm').textContent=item.em;
+  document.getElementById('mName').textContent=item.name;
+  document.getElementById('mCat').textContent=`# ${item.id} · ${item.cat}`;
+  document.getElementById('mTxt').textContent=item.text;
+  document.getElementById('overlay').dataset.id=item.id;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(e){
+  if(!e||e.target===document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('open');
+}
+function copyModal(){
+  const id=document.getElementById('overlay').dataset.id;
+  const item=DATA.find(x=>x.id===id);
+  if(!item)return;
+  navigator.clipboard.writeText(`【${item.name}】${item.text}`).then(()=>toast('已复制 ✓'));
+}
+
+/* ── LIKED VIEW ──────────────────────────── */
+function viewLiked(){
+  const ids=Object.keys(likes).filter(k=>likes[k]);
+  if(!ids.length){toast('还没有收藏哦，点 ♡ 来收藏');return;}
+  cat='全部';
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  document.querySelector('.chip[data-c="全部"]').classList.add('on');
+  document.getElementById('srchIn').value='';
+  const filtered=DATA.filter(x=>ids.includes(x.id));
+  document.getElementById('showN').textContent=filtered.length;
+  document.getElementById('catLabel').textContent=`已收藏 ${filtered.length} 条`;
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  document.getElementById('empty').classList.remove('show');
+  filtered.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='card';div.dataset.c=item.cat;
+    div.style.animationDelay=Math.min(i*.04,.5)+'s';
+    div.innerHTML=`
+      <div class="c-top">
+        <div class="c-em">${item.em}</div>
+        <div class="c-meta"><div class="c-name">${item.name}</div><span class="c-cat">${item.cat}</span></div>
+      </div>
+      <div class="c-body"><div class="c-txt">${item.text}</div></div>
+      <div class="c-foot">
+        <div class="c-id"># ${item.id}</div>
+        <div class="c-acts">
+          <button class="btn-lk on" onclick="toggleLike('${item.id}',this)"><span>♥</span></button>
+          <button class="btn-cp" onclick="doCopy('${item.id}',this)">复制</button>
+        </div>
+      </div>`;
+    grid.appendChild(div);
+  });
+  document.querySelector('.grid-wrap').scrollIntoView({behavior:'smooth'});
+  toast(`显示全部 ${filtered.length} 条收藏`);
+}
+
+/* ── TOAST ───────────────────────────────── */
+function toast(msg){
+  const c=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(()=>t.remove(),2400);
+}
+
+/* ── STATS ───────────────────────────────── */
+function updateStats(){
+  document.getElementById('stLiked').textContent=Object.values(likes).filter(v=>v).length;
+}
+
+/* ── KEYBOARD ────────────────────────────── */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(e.key==='r'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName!=='INPUT')doRandom();
+});
+
+init();
+</script>
+</body>
+</html>
